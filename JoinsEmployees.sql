@@ -266,3 +266,30 @@ FROM
 	departments d ON dm.dept_no = d.dept_no
 WHERE
 	t.title = 'Manager';
+
+#Join tables without direct connection
+SELECT
+	d.dept_name, AVG(salary) AS average_salary
+FROM
+	departments d
+		JOIN
+	dept_manager m ON d.dept_no = m.dept_no
+		JOIN
+	salaries s ON m.emp_no = s.emp_no
+GROUP BY d.dept_name
+HAVING average_salary > 60000
+ORDER BY average_salary DESC
+;
+
+#Count males and females managers
+SELECT * FROM dept_manager;
+SELECT * FROM employees;
+
+SELECT
+	e.gender, COUNT(e.gender) AS number_of_managers
+FROM
+	employees e
+		JOIN
+	dept_manager d ON e.emp_no = d.emp_no
+GROUP BY e.gender
+;
